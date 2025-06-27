@@ -1,5 +1,7 @@
-<!DOCTYPE html>
-<html>
+{% extends 'Finzoo/base.html' %}
+{% load static %}
+
+{% block body %}
 <head>
     <title>Add Expense</title>
 </head>
@@ -33,4 +35,5 @@
     <br>
     <a href="{% url 'index' %}">← Back to Dashboard</a>
 </body>
-</html>
+{% endblock %}
+

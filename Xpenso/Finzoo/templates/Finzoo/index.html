@@ -1,23 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Xpenso Dashboard</title>
-</head>
-<body>
-    <h1>Total Spent: ₹{{ total }}</h1>
+{% extends 'Finzoo/base.html' %}
+{% load static %}
 
-    <h2>Expenses:</h2>
-    <ul>
-        {% for expense in expenses %}
-            <li>{{ expense.date }} - {{ expense.title }} - ₹{{ expense.amount }}</li>
-        {% empty %}
-            <li>No expenses yet.</li>
-        {% endfor %}
-    </ul>
+{% block body %}
+<h1>Total Spent: ₹{{ total }}</h1>
 
-    <form action="{% url 'add_expense' %}">
-        <button type="submit">Add New Expense</button>
-    </form>
-    
-</body>
-</html>
+<h2>Expenses:</h2>
+<ul>
+    {% for expense in expenses %}
+        <li>{{ expense.date }} - {{ expense.title }} - ₹{{ expense.amount }}</li>
+    {% empty %}
+        <li>No expenses yet.</li>
+    {% endfor %}
+</ul>
+
+<form action="{% url 'add_expense' %}">
+    <button type="submit">Add New Expense</button>
+</form>
+{% endblock %}
