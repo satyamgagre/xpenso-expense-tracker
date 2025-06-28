@@ -31,6 +31,35 @@ def add_expense(request):
 
     return render(request, 'Finzoo/add_expense.html', {'form': form})
 
+@login_required
+def monthly_report(request):
+    month = int(request.GET.get('month', datetime.now().month))
+    year = int(request.GET.get('year', datetime.now().year))
+
+    expenses = Expense.objects.filter(
+        user=request.user,
+        date__month=month,
+        date__year=year
+    )
+
+    total = expenses.aggregate(total=Sum('amount'))['total'] or 0
+
+    # Group by category
+    category_summary = expenses.values('category').annotate(
+        total=Sum('amount')
+    ).order_by('-total')
+
+    return render(request, 'expenses/monthly_report.html', {
+        'expenses': expenses,
+        'total': total,
+        'category_summary': category_summary,
+        'month': month,
+        'year': year
+    })
+
+def edit(request, id):
+    expense_form = ExpenseForm
+    return render(request, 'Finzoo/edit.html', {'expense_form':expense_form})
 
 
     
