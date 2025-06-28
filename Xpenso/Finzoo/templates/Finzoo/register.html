@@ -1,0 +1,65 @@
+{% load static %}
+
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - Finzoo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-md bg-white/80 backdrop-blur-md border border-gray-200 rounded-2xl shadow-xl p-8">
+        <!-- Logo or Title -->
+        <div class="flex flex-col items-center mb-6">
+            <img src="{% static 'Images/logo.jpg' %}" alt="Finzoo Logo" class="w-12 h-12 mb-4 rounded-full">
+            <h2 class="text-3xl font-bold text-gray-800">Create Account</h2>
+            <p class="text-gray-500 text-sm">Join Finzoo – your smart expense tracker</p>
+        </div>
+
+        <!-- Form -->
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            <div class="space-y-2">
+                {{ form.username.label_tag }}
+                {{ form.username|add_class:"w-full px-4 py-2 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600 focus:border-gray-500 transition" }}
+            </div>
+            <div class="space-y-2">
+                {{ form.email.label_tag }}
+                {{ form.email|add_class:"w-full px-4 py-2 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition" }}
+            </div>
+            <div class="space-y-2">
+                {{ form.password1.label_tag }}
+                {{ form.password1|add_class:"w-full px-4 py-2 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition" }}
+            </div>
+            <div class="space-y-2">
+                {{ form.password2.label_tag }}
+                {{ form.password2|add_class:"w-full px-4 py-2 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition" }}
+            </div>
+        
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-xl font-semibold transition">
+                Register
+            </button>
+        </form>
+        
+
+        <!-- Footer -->
+        <p class="text-center text-sm mt-6 text-gray-600">
+            Already have an account?
+            <a href="{% url 'login' %}" class="text-blue-600 hover:underline font-medium">Login here</a>
+        </p>
+    </div>
+
+    <!-- Tailwind custom form styling -->
+    <style>
+        input {
+            @apply w-full px-4 py-2 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition;
+        }
+        label {
+            @apply block text-sm text-gray-700 font-medium;
+        }
+    </style>
+</body>
+</html>

@@ -2,41 +2,65 @@
 {% load static %}
 
 {% block body %}
-<div class="max-w-3xl mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold text-center text-green-600 mb-6">
-        Total Spent: ₹{{ total }}
+<div class="max-w-4xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-center text-green-600 mb-2">
+        Hello, {{ user.username }}!
     </h1>
+    <p class="text-center text-gray-500 mb-6">Total Spent This Month: ₹{{ total }}</p>
 
+    <!-- Filter Section -->
+    <form method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <input type="date" name="start_date" class="border px-3 py-2 rounded" placeholder="Start Date">
+        <input type="date" name="end_date" class="border px-3 py-2 rounded" placeholder="End Date">
+        <select name="category" class="border px-3 py-2 rounded">
+            <option value="">All Categories</option>
+            <option value="Food">Food</option>
+            <option value="Travel">Travel</option>
+            <option value="Shopping">Shopping</option>
+        </select>
+        <button type="submit" class="bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">Filter</button>
+    </form>
+
+    <!-- Expense List -->
     <div class="bg-white shadow-md rounded-lg p-6 mb-6">
         <h2 class="text-2xl font-semibold text-gray-800 mb-4">Your Expenses</h2>
 
         {% if expenses %}
             <ul class="divide-y divide-gray-200">
                 {% for expense in expenses %}
-                    <li class="py-3 flex flex-col sm:flex-row sm:justify-between sm:items-center">
-                        <div>
-                            <p class="text-gray-700 font-medium">{{ expense.date }} – {{ expense.title }}</p>
-                            <p class="text-sm text-gray-500">
-                                {{ expense.category }} | {{ expense.payment_method }}
-                            </p>
+                    <li class="py-4 flex flex-col sm:flex-row sm:justify-between sm:items-center">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-gray-500">📅 {{ expense.date }}</span>
+                            <span class="font-medium text-gray-700">📄 {{ expense.title }}</span>
+                            <span class="text-sm text-gray-400 hidden sm:inline">| {{ expense.category }} | {{ expense.payment_method }}</span>
                         </div>
-                        <div class="text-right text-red-600 font-semibold">
-                            ₹{{ expense.amount }}
+                        <div class="flex items-center space-x-2 mt-2 sm:mt-0">
+                            <span class="text-red-600 font-semibold">💰₹{{ expense.amount }}</span>
+                            <a href="{% url 'edit' expense.id %}" class="text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Edit</a>
+                            <form method="POST" action="{% url 'delete_expense' expense.id %}" onsubmit="return confirm('Are you sure you want to delete this expense?');">
+                                {% csrf_token %}
+                                <button type="submit" class="text-sm bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Delete</button>
+                            </form>
                         </div>
                     </li>
                 {% endfor %}
             </ul>
         {% else %}
-            <p class="text-gray-500 text-center">No expenses yet.</p>
+            <p class="text-gray-500 text-center">No expenses found.</p>
         {% endif %}
     </div>
 
-    <div class="text-center">
-        <form action="{% url 'add_expense' %}">
-            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded shadow">
-                Add New Expense
-            </button>
-        </form>
+    <!-- Add Expense Button -->
+    <div class="text-center sticky bottom-4 z-50">
+        <a href="{% url 'add_expense' %}" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full shadow-lg text-lg">
+            + Add Expense
+        </a>
+    </div>
+
+    <!-- Chart Section (Placeholder for future integration) -->
+    <div class="bg-white shadow-md rounded-lg p-6 mt-6">
+        <h2 class="text-xl font-semibold mb-4 text-gray-700">Monthly Breakdown (Coming Soon)</h2>
+        <p class="text-sm text-gray-400">Pie/Bar chart will be integrated using Chart.js</p>
     </div>
 </div>
 {% endblock %}

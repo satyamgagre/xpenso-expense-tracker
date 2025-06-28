@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Finzoo</title>
+    <link href="{% static 'Finzoo/style.css' %}" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md flex flex-col overflow-hidden fade-in">
+
+        <!-- Logo & Branding -->
+        <div class="w-full bg-[#1f2937] text-white flex flex-col items-center justify-center p-10">
+            <img src="{% static 'Images/logo.jpg' %}" alt="Finzoo Logo" class="w-28 h-28 mb-6">
+            <h1 class="text-3xl font-extrabold mb-2 tracking-wide text-center">Welcome to Finzoo</h1>
+            <p class="text-base text-center text-gray-300">Your smart and secure personal finance tracker</p>
+        </div>
+
+        <!-- Login Form -->
+        <div class="w-full p-8 flex flex-col justify-center">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800 text-center">Login to Finzoo</h2>
+
+            {% if messages %}
+                <div class="mb-6 text-red-600 text-base text-center">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="POST" class="space-y-5">
+                {% csrf_token %}
+                <div>
+                    <label for="username" class="block text-base font-medium text-gray-700 mb-1">Username</label>
+                    <input type="text" name="username" id="username"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div>
+                    <label for="password" class="block text-base font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" name="password" id="password"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white text-base py-3 rounded-lg font-semibold transition">
+                    Login
+                </button>
+            </form>
+
+            <!-- Register & Forgot Password Links -->
+            <div class="mt-6 text-center text-sm text-gray-600">
+                <p class="mb-2">
+                    Don’t have an account?
+                    <a href="{% url 'register' %}" class="text-blue-600 hover:underline font-medium">Register here</a>
+                </p>
+                <p>
+                    <a href="{% url 'password_reset' %}" class="text-blue-600 hover:underline font-medium">Forgot Password?</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
