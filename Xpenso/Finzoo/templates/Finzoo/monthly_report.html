@@ -1,10 +1,12 @@
 {% extends 'Finzoo/base.html' %}
+
+{% load humanize %}
 {% load static %}
 
 {% block body %}
 <div class="max-w-5xl mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">
-        Monthly Report - ₹{{ total }} <span class="text-base font-normal text-gray-500">({{ month }}/{{ year }})</span>
+        Monthly Report - ₹{{ total|intcomma }} <span class="text-base font-normal text-gray-500">({{ month }}/{{ year }})</span>
     </h1>
 
     <!-- Category Breakdown Cards -->
@@ -12,7 +14,7 @@
         {% for category in category_summary %}
         <div class="bg-green-50 dark:bg-gray-700 border border-green-200 dark:border-gray-600 p-4 rounded-md shadow-md">
             <h3 class="text-lg font-semibold text-green-700 dark:text-green-300">{{ category.category }}</h3>
-            <p class="text-xl font-bold text-gray-800 dark:text-white">₹{{ category.total }}</p>
+            <p class="text-xl font-bold text-gray-800 dark:text-white">₹{{ category.total|intcomma }}</p>
         </div>
         {% endfor %}
     </div>
@@ -43,7 +45,7 @@
                     <td class="py-2 px-4 border-b">{{ expense.title }}</td>
                     <td class="py-2 px-4 border-b">{{ expense.category }}</td>
                     <td class="py-2 px-4 border-b">{{ expense.payment_method }}</td>
-                    <td class="py-2 px-4 border-b">₹{{ expense.amount }}</td>
+                    <td class="py-2 px-4 border-b">₹{{ expense.amount|intcomma }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
